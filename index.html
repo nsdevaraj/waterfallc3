@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <link href="css/c3.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="chart"></div> 
+
+    <script src="js/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/c3.modified.js"></script>
+    <script>
+      var chart = c3.generate({
+        data: {
+          columns: [
+            ['data1', 1030, 1200, 1100, 1400, 1150, 820, 1600]
+            ,['data2', 2030, 2200, 2100, 2400, 2150, 810, 2600]
+          ],
+          type: 'bar',
+          waterfall: true,
+          waterfallLineColor: "rgba(211,211,211,1)",
+          waterfallType : [0,1,1,2,2,1,2],
+          types : {
+            data1: "bar" 
+          }
+        },
+        axis: {
+          x: {
+            type: 'categorized'
+          }
+        },
+        bar: {
+          width: {
+            ratio: 0.5,
+          },
+        }
+      });
+    </script>
+  </body>
+</html>
