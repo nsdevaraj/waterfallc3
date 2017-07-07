@@ -917,15 +917,13 @@ function generateWaterfallData(config) {
 	for(var i = 0; i < config.data.columns.length; i++) {
 		var column = config.data.columns[i];
 		for(var j = 2; j < column.length; j++) {
-			for(var k = 0; k < config.data.waterfallType.length; k++) { 
-				var type = config.data.waterfallType[k][j - 1];
-				if(type === vbi.waterfallLegend.POSITIVE) {
-					column[j] = column[j - 1] + column[j];
-				} else if(type === vbi.waterfallLegend.NEGATIVE) {
-					column[j] = column[j - 1] - column[j];
-				}
-				column[j] = column[j];
+			var type = config.data.waterfallType[j - 1];
+			if(type === vbi.waterfallLegend.POSITIVE) {
+				column[j] = column[j - 1] + column[j];
+			} else if(type === vbi.waterfallLegend.NEGATIVE) {
+				column[j] = column[j - 1] - column[j];
 			}
+			column[j] = column[j];
 		}
 	}
 }
@@ -7109,14 +7107,11 @@ c3_chart_internal_fn.generateDrawBar = function (barIndices, isSub) {
 			for(var j = 0; j < coords.length ; j++) {
 				coords[j] = coords[j].split(",");
 			};
-			
-			for(var k = 0; k < $$.config.data_waterfallType.length; k++) { 
-				if(i > 0 && $$.config.data_waterfallType[k][i] != vbi.waterfallLegend.INITIAL) {
-					if($$.config.axis_rotated) {
-						path = "M "+holdCoords.data[1][0].replace("L","")+","+coords[0][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+holdCoords.data[2][0]+","+coords[3][1]+" z";
-					} else {
-						path = "M "+coords[0][0]+","+holdCoords.data[1][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+coords[3][0]+","+holdCoords.data[2][1]+" z";
-					}
+			if(i > 0 && $$.config.data_waterfallType[i] != vbi.waterfallLegend.INITIAL) {
+				if($$.config.axis_rotated) {
+					path = "M "+holdCoords.data[1][0].replace("L","")+","+coords[0][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+holdCoords.data[2][0]+","+coords[3][1]+" z";
+				} else {
+					path = "M "+coords[0][0]+","+holdCoords.data[1][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+coords[3][0]+","+holdCoords.data[2][1]+" z";
 				}
 			}
 			holdCoords = {index: i, data: coords};
@@ -7138,17 +7133,15 @@ c3_chart_internal_fn.generateDrawWaterfallLine = function (barIndices, isSub) {
 
             var path = 'M ' + points[0][indexX] + ',' + points[2][indexY] + ' ';
 
-			for(var k = 0; k < $$.config.data_waterfallType.length; k++) { 
-				if($$.config.data_waterfall && holdCoords.length > 0 && $$.config.data_waterfallType[k][i] != vbi.waterfallLegend.INITIAL) {
-					if($$.config.axis_rotated) {
-						path = 'M ' + holdCoords[1][indexX] + ',' + holdCoords[1][indexY] + ' ' +
-							'L ' + holdCoords[1][indexX] + ',' + points[1][indexY];
-					} else {
-						path = 'M ' + holdCoords[1][indexX] + ',' + holdCoords[1][indexY] + ' ' +
-							'L ' + points[2][indexX] + ',' + holdCoords[1][indexY];
-					}
-				}
-			}
+            if($$.config.data_waterfall && holdCoords.length > 0 && $$.config.data_waterfallType[i] != vbi.waterfallLegend.INITIAL) {
+                if($$.config.axis_rotated) {
+                    path = 'M ' + holdCoords[1][indexX] + ',' + holdCoords[1][indexY] + ' ' +
+                        'L ' + holdCoords[1][indexX] + ',' + points[1][indexY];
+                } else {
+                    path = 'M ' + holdCoords[1][indexX] + ',' + holdCoords[1][indexY] + ' ' +
+                        'L ' + points[2][indexX] + ',' + holdCoords[1][indexY];
+                }
+            }
 
             holdCoords = points;
 
@@ -8075,14 +8068,11 @@ c3_chart_internal_fn.getXForText = function (points, d, textElement) {
         }
     }
 	if($$.config.data_waterfall && $$.config.axis_rotated) {
-		
-		for(var k = 0; k < $$.config.data_waterfallType.length; k++) { 
-			if($$.config.data_waterfallType[k][d.x] === vbi.waterfallLegend.NEGATIVE) {
-				if(xPos > 10) {
-					xPos -= box.width + 10;
-				}
-			} 
-		}
+		if($$.config.data_waterfallType[d.x] === vbi.waterfallLegend.NEGATIVE) {
+			if(xPos > 10) {
+				xPos -= box.width + 10;
+			}
+		} 
 	} 
     return xPos;
 };
@@ -8115,16 +8105,13 @@ c3_chart_internal_fn.getYForText = function (points, d, textElement) {
         }
     }
 	if($$.config.data_waterfall && !$$.config.axis_rotated) {
-		
-		for(var k = 0; k < $$.config.data_waterfallType.length; k++) { 
-			if($$.config.data_waterfallType[k][d.x] === vbi.waterfallLegend.NEGATIVE) {
-				yPos += box.height + 10;
+		if($$.config.data_waterfallType[d.x] === vbi.waterfallLegend.NEGATIVE) {
+			yPos += box.height + 10;
 
-				if(yPos > points[0][1]) {
-					yPos = points[0][1];
-				}
-			} 
-		}
+			if(yPos > points[0][1]) {
+				yPos = points[0][1];
+			}
+		} 
 	} 
     return yPos;
 };
@@ -8534,4 +8521,4 @@ c3_chart_internal_fn.redrawForZoom = function () {
 
 return c3$1;
 
-})));
+}))); 

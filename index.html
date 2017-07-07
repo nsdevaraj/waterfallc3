@@ -14,13 +14,19 @@
             ['data1', 1030, 1200, 1100, 1400, 1150, 820, 1600]
             ,['data2', 2030, 2200, 2100, 2400, 2150, 810, 2600]
           ], 
+        groups: [
+            ['data1', 'data2']
+        ],
           waterfall: true,
           waterfallLineColor: "#d3d3d3",
-          waterfallType : [[0,1,1,2,2,1,2],[0,1,1,2,2,1,2]],
+          waterfallType : [0,1,1,2,2,1,2],
           types : {
             data1: "bar"
-            ,data2: "bar" 
-          }
+			,data2: "bar"
+          },
+          onclick: function (d, element) { console.log("onclick", d, element); },
+          onmouseover: function (d) { console.log("onmouseover", d); },
+          onmouseout: function (d) { console.log("onmouseout", d); }
         },
         axis: {
           x: {
