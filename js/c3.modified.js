@@ -855,11 +855,6 @@ Axis.prototype.redraw = function redraw(transitions, isHidden) {
 };
 
 var c3$1 = { version: "0.4.14" };
-var vbi={}  
-vbi.waterfallLegend = {};
-vbi.waterfallLegend.INITIAL = 0;
-vbi.waterfallLegend.POSITIVE = 1;
-vbi.waterfallLegend.NEGATIVE = 2;
 
 var c3_chart_fn;
 var c3_chart_internal_fn;
@@ -915,15 +910,21 @@ function ChartInternal(api) {
 
 function generateWaterfallData(config) {
 	for(var i = 0; i < config.data.columns.length; i++) {
+		var interSum=0;
+		var resultSum=0;
 		var column = config.data.columns[i];
-		for(var j = 2; j < column.length; j++) {
-			var type = config.data.waterfallType[j - 1];
-			if(type === vbi.waterfallLegend.POSITIVE) {
-				column[j] = column[j - 1] + column[j];
-			} else if(type === vbi.waterfallLegend.NEGATIVE) {
-				column[j] = column[j - 1] - column[j];
+		for(var j = 2; j < column.length; j++) { 
+			if(!isNaN(column[j]) && !isNaN(column[j-1])){
+			column[j] = column[j - 1] + column[j]; 
+			interSum += column[j];
+			resultSum += column[j];
+			}else{
+				if(column[j]==='#'){
+					column[j] = interSum;
+				} else if(column[j]==='$'){
+					column[j] = resultSum;
+				}
 			}
-			column[j] = column[j];
 		}
 	}
 }
@@ -4497,7 +4498,6 @@ c3_chart_internal_fn.getDefaultConfig = function () {
         data_onselected: function () {},
         data_onunselected: function () {},
 		data_waterfall: false, 
-		data_waterfallType: [], 
 		data_waterfallLineColor : undefined, 
         data_url: undefined,
         data_headers: undefined,
@@ -7107,7 +7107,7 @@ c3_chart_internal_fn.generateDrawBar = function (barIndices, isSub) {
 			for(var j = 0; j < coords.length ; j++) {
 				coords[j] = coords[j].split(",");
 			};
-			if(i > 0 && $$.config.data_waterfallType[i] != vbi.waterfallLegend.INITIAL) {
+			if(i > 0) {
 				if($$.config.axis_rotated) {
 					path = "M "+holdCoords.data[1][0].replace("L","")+","+coords[0][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+holdCoords.data[2][0]+","+coords[3][1]+" z";
 				} else {
@@ -7133,7 +7133,7 @@ c3_chart_internal_fn.generateDrawWaterfallLine = function (barIndices, isSub) {
 
             var path = 'M ' + points[0][indexX] + ',' + points[2][indexY] + ' ';
 
-            if($$.config.data_waterfall && holdCoords.length > 0 && $$.config.data_waterfallType[i] != vbi.waterfallLegend.INITIAL) {
+            if($$.config.data_waterfall && holdCoords.length > 0 ) {
                 if($$.config.axis_rotated) {
                     path = 'M ' + holdCoords[1][indexX] + ',' + holdCoords[1][indexY] + ' ' +
                         'L ' + holdCoords[1][indexX] + ',' + points[1][indexY];
@@ -8068,11 +8068,9 @@ c3_chart_internal_fn.getXForText = function (points, d, textElement) {
         }
     }
 	if($$.config.data_waterfall && $$.config.axis_rotated) {
-		if($$.config.data_waterfallType[d.x] === vbi.waterfallLegend.NEGATIVE) {
 			if(xPos > 10) {
 				xPos -= box.width + 10;
 			}
-		} 
 	} 
     return xPos;
 };
@@ -8105,13 +8103,11 @@ c3_chart_internal_fn.getYForText = function (points, d, textElement) {
         }
     }
 	if($$.config.data_waterfall && !$$.config.axis_rotated) {
-		if($$.config.data_waterfallType[d.x] === vbi.waterfallLegend.NEGATIVE) {
 			yPos += box.height + 10;
 
 			if(yPos > points[0][1]) {
 				yPos = points[0][1];
 			}
-		} 
 	} 
     return yPos;
 };
