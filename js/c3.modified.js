@@ -7112,8 +7112,8 @@ c3_chart_internal_fn.generateDrawBar = function (barIndices, isSub) {
 			coords.pop();
 			for(var j = 0; j < coords.length ; j++) {
 				coords[j] = coords[j].split(",");
-			};
-      console.log(d)
+			}; 
+			//|| isNaN(d.waterfallMeta[i])
 			if(i > 0) {
 				if($$.config.axis_rotated) {
 					path = "M "+holdCoords.data[1][0].replace("L","")+","+coords[0][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+holdCoords.data[2][0]+","+coords[3][1]+" z";
