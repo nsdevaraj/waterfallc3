@@ -13,7 +13,7 @@ var CLASS = {
     chartBars: 'c3-chart-bars',
     chartText: 'c3-chart-text',
     chartTexts: 'c3-chart-texts',
-	chartWaterfallLine: 'c3-chart-waterfall-line', 
+	  chartWaterfallLine: 'c3-chart-waterfall-line', 
     chartWaterfallLines: 'c3-chart-waterfall-lines',
     chartArc: 'c3-chart-arc',
     chartArcs: 'c3-chart-arcs',
@@ -43,8 +43,8 @@ var CLASS = {
     line: 'c3-line',
     lines: 'c3-lines',
     bar: 'c3-bar',
-	waterfallLine: 'c3-waterfall-line',
-	waterfallLines: 'c3-waterfall-lines',
+	  waterfallLine: 'c3-waterfall-line',
+	  waterfallLines: 'c3-waterfall-lines',
     bars: 'c3-bars',
     circle: 'c3-circle',
     circles: 'c3-circles',
@@ -930,8 +930,8 @@ function generateWaterfallData(config) {
 }
 
 c3$1.generate = function (config) {
-	if(config.data.waterfall === true) {
-        generateWaterfallData(config);
+	  if(config.data.waterfall === true) {
+      generateWaterfallData(config);
     }
 
     return new Chart(config);
@@ -1322,8 +1322,8 @@ c3_chart_internal_fn.updateTargets = function (targets) {
     //-- Bar --//
     $$.updateTargetsForBar(targets);
 	
-	//-- Waterfall --//
-	$$.updateTargetsForWaterfallLine(targets);
+  	//-- Waterfall --//
+  	$$.updateTargetsForWaterfallLine(targets);
 	
     //-- Line --//
     $$.updateTargetsForLine(targets);
@@ -1446,7 +1446,7 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
     // setup drawer - MEMO: these must be called after axis updated
     drawArea = $$.generateDrawArea ? $$.generateDrawArea(areaIndices, false) : undefined;
     drawBar = $$.generateDrawBar ? $$.generateDrawBar(barIndices) : undefined;
-	drawWaterfallLine = $$.generateDrawWaterfallLine ? $$.generateDrawWaterfallLine(barIndices) : undefined;
+   	drawWaterfallLine = $$.generateDrawWaterfallLine ? $$.generateDrawWaterfallLine(barIndices) : undefined;
     drawLine = $$.generateDrawLine ? $$.generateDrawLine(lineIndices, false) : undefined;
     xForText = $$.generateXYForText(areaIndices, barIndices, lineIndices, true);
     yForText = $$.generateXYForText(areaIndices, barIndices, lineIndices, false);
@@ -1477,10 +1477,10 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
     // bars
     $$.updateBar(durationForExit);
 
-	// waterfall
-	$$.updateWaterfallLine(durationForExit); 
+  	// waterfall
+  	$$.updateWaterfallLine(durationForExit); 
     
-	// lines, areas and cricles
+    // lines, areas and cricles
     $$.updateLine(durationForExit);
     $$.updateArea(durationForExit);
     $$.updateCircle();
@@ -1527,7 +1527,7 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
             duration: options.flow.duration,
             drawBar: drawBar,
             drawLine: drawLine,
-			drawWaterfallLine: drawWaterfallLine, 
+			      drawWaterfallLine: drawWaterfallLine, 
             drawArea: drawArea,
             cx: cx,
             cy: cy,
@@ -1546,7 +1546,7 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
             [
                 $$.redrawBar(drawBar, true),
                 $$.redrawLine(drawLine, true),
-				$$.redrawWaterfallLine(drawWaterfallLine,true),
+				        $$.redrawWaterfallLine(drawWaterfallLine,true),
                 $$.redrawArea(drawArea, true),
                 $$.redrawCircle(cx, cy, true),
                 $$.redrawText(xForText, yForText, options.flow, true),
@@ -1575,7 +1575,7 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
     }
     else {
         $$.redrawBar(drawBar);
-		$$.redrawWaterfallLine(drawWaterfallLine);
+		    $$.redrawWaterfallLine(drawWaterfallLine);
         $$.redrawLine(drawLine);
         $$.redrawArea(drawArea);
         $$.redrawCircle(cx, cy);
@@ -3151,7 +3151,7 @@ c3_chart_internal_fn.generateFlow = function (args) {
         var targets = args.targets,
             flow = args.flow,
             drawBar = args.drawBar,
-			drawWaterfallLine = args.drawWaterfallLine,
+		       	drawWaterfallLine = args.drawWaterfallLine,
             drawLine = args.drawLine,
             drawArea = args.drawArea,
             cx = args.cx,
@@ -3175,7 +3175,7 @@ c3_chart_internal_fn.generateFlow = function (args) {
             xgridLines = $$.xgridLines || d3.selectAll([]),
             mainRegion = $$.mainRegion || d3.selectAll([]),
             mainText = $$.mainText || d3.selectAll([]),
-			mainWaterfallLine = $$.mainWaterfallLine || d3.selectAll([]), 
+			      mainWaterfallLine = $$.mainWaterfallLine || d3.selectAll([]), 
             mainBar = $$.mainBar || d3.selectAll([]),
             mainLine = $$.mainLine || d3.selectAll([]),
             mainArea = $$.mainArea || d3.selectAll([]),
@@ -3225,7 +3225,7 @@ c3_chart_internal_fn.generateFlow = function (args) {
             wait.add($$.axes.x.transition().call($$.xAxis));
             wait.add(mainBar.transition().attr('transform', transform));
             wait.add(mainLine.transition().attr('transform', transform));
-			watt.add(mainWaterfallLine.transition().attr('transform', transform));
+			      wait.add(mainWaterfallLine.transition().attr('transform', transform));
             wait.add(mainArea.transition().attr('transform', transform));
             wait.add(mainCircle.transition().attr('transform', transform));
             wait.add(mainText.transition().attr('transform', transform));
@@ -3264,9 +3264,9 @@ c3_chart_internal_fn.generateFlow = function (args) {
             mainBar
                 .attr('transform', null)
                 .attr("d", drawBar);
-			mainBar
-				.attr('transform', null)
-				.attr("d", drawWaterfallLine);
+      			mainBar
+      				.attr('transform', null)
+      				.attr("d", drawWaterfallLine);
             mainLine
                 .attr('transform', null)
                 .attr("d", drawLine);
@@ -3419,9 +3419,9 @@ c3_chart_fn.load = function (args) {
     if (args.xs) {
         $$.addXs(args.xs);
     }
-	if (args.x) {
-		$$.config.data_x = args.x;
-	}
+  	if (args.x) {
+  		$$.config.data_x = args.x;
+  	}
     // update names if exists
     if ('names' in args) {
         c3_chart_fn.data.names.bind(this)(args.names);
@@ -4497,8 +4497,8 @@ c3_chart_internal_fn.getDefaultConfig = function () {
         data_onmouseout: function () {},
         data_onselected: function () {},
         data_onunselected: function () {},
-		data_waterfall: false, 
-		data_waterfallLineColor : undefined, 
+    		data_waterfall: false, 
+    		data_waterfallLineColor : undefined, 
         data_url: undefined,
         data_headers: undefined,
         data_json: undefined,
@@ -5085,13 +5085,13 @@ c3_chart_internal_fn.mapToIds = function (targets) {
 };
 c3_chart_internal_fn.mapToTargetIds = function (ids) {
     var $$ = this;
-   if($$.config.data_waterfall) {
-		ids = $$.config.data_columns.map(function(d) { return d[0] });
-		ids.shift();
-		return ids;
-	} else {
-		return ids ? [].concat(ids) : $$.mapToIds($$.data.targets);
-	}
+     if($$.config.data_waterfall) {
+  		ids = $$.config.data_columns.map(function(d) { return d[0] });
+  		ids.shift();
+  		return ids;
+  	} else {
+    return ids ? [].concat(ids) : $$.mapToIds($$.data.targets);
+  	}
 };
 c3_chart_internal_fn.hasTarget = function (targets, id) {
     var ids = this.mapToIds(targets), i;
@@ -7085,7 +7085,7 @@ c3_chart_internal_fn.unexpandBars = function (i) {
 c3_chart_internal_fn.generateDrawBar = function (barIndices, isSub) {
     var $$ = this, config = $$.config,
         getPoints = $$.generateGetBarPoints(barIndices, isSub);
-	var holdCoords = {}; 	
+  	var holdCoords = {}; 	
     return function (d, i) {
         // 4 points that make a bar
         var points = getPoints(d, i);
@@ -7107,6 +7107,7 @@ c3_chart_internal_fn.generateDrawBar = function (barIndices, isSub) {
 			for(var j = 0; j < coords.length ; j++) {
 				coords[j] = coords[j].split(",");
 			};
+      console.log(d)
 			if(i > 0) {
 				if($$.config.axis_rotated) {
 					path = "M "+holdCoords.data[1][0].replace("L","")+","+coords[0][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+holdCoords.data[2][0]+","+coords[3][1]+" z";
@@ -8067,11 +8068,11 @@ c3_chart_internal_fn.getXForText = function (points, d, textElement) {
             xPos = 4;
         }
     }
-	if($$.config.data_waterfall && $$.config.axis_rotated) {
-			if(xPos > 10) {
-				xPos -= box.width + 10;
-			}
-	} 
+  	if($$.config.data_waterfall && $$.config.axis_rotated) {
+  			if(xPos > 10) {
+  				xPos -= box.width + 10;
+  			}
+  	} 
     return xPos;
 };
 c3_chart_internal_fn.getYForText = function (points, d, textElement) {
@@ -8102,13 +8103,13 @@ c3_chart_internal_fn.getYForText = function (points, d, textElement) {
             yPos = this.height - 4;
         }
     }
-	if($$.config.data_waterfall && !$$.config.axis_rotated) {
-			yPos += box.height + 10;
+  	if($$.config.data_waterfall && !$$.config.axis_rotated) {
+  			yPos += box.height + 10;
 
-			if(yPos > points[0][1]) {
-				yPos = points[0][1];
-			}
-	} 
+  			if(yPos > points[0][1]) {
+  				yPos = points[0][1];
+  			}
+  	} 
     return yPos;
 };
 
