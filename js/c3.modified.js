@@ -908,21 +908,18 @@ function ChartInternal(api) {
     $$.axes = {};
 }
 
-function generateWaterfallData(config) {
-	for(var i = 0; i < config.data.columns.length; i++) {
-		var interSum=0;
-		var resultSum=0;
+function generateWaterfallData(config) { 
+	config.data.waterfallData = JSON.parse(JSON.stringify(config.data.columns));
+	for(var i = 0; i < config.data.columns.length; i++) { 
 		var column = config.data.columns[i];
 		for(var j = 2; j < column.length; j++) { 
 			if(!isNaN(column[j]) && !isNaN(column[j-1])){
-			column[j] = column[j - 1] + column[j]; 
-			interSum += column[j];
-			resultSum += column[j];
+				column[j] = column[j - 1] + column[j];  
 			}else{
 				if(column[j]==='#'){
 					column[j] = column[j-1];
 				} else if(column[j]==='$'){
-					column[j] = column[j-1];
+					column[j] = column[j-1]; 
 				}
 			}
 		}
@@ -930,7 +927,7 @@ function generateWaterfallData(config) {
 }
 
 c3$1.generate = function (config) {
-	  if(config.data.waterfall === true) {
+  	if(config.data.waterfall === true) {
       generateWaterfallData(config);
     }
 
@@ -1321,7 +1318,7 @@ c3_chart_internal_fn.updateTargets = function (targets) {
 
     //-- Bar --//
     $$.updateTargetsForBar(targets);
-	
+
   	//-- Waterfall --//
   	$$.updateTargetsForWaterfallLine(targets);
 	
@@ -3058,6 +3055,7 @@ c3_chart_fn.flow = function (args) {
                         id: t.id,
                         index: tail + j,
                         x: $$.isTimeSeries() ? $$.getOtherTargetX(tail + j) : tail + j,
+						waterfallMeta:null,
                         value: null
                     });
                 }
@@ -3074,6 +3072,7 @@ c3_chart_fn.flow = function (args) {
                     id: t.id,
                     index: i,
                     x: $$.isTimeSeries() ? $$.getOtherTargetX(i) : i,
+					waterfallMeta:null,
                     value: null
                 });
             }
@@ -3872,6 +3871,7 @@ c3_chart_internal_fn.getArcRatio = function (d) {
 c3_chart_internal_fn.convertToArcData = function (d) {
     return this.addName({
         id: d.data.id,
+		waterfallMeta:null,
         value: d.value,
         ratio: this.getArcRatio(d),
         index: d.index
@@ -4498,6 +4498,7 @@ c3_chart_internal_fn.getDefaultConfig = function () {
         data_onselected: function () {},
         data_onunselected: function () {},
     		data_waterfall: false, 
+			data_waterfallData: undefined, 
     		data_waterfallLineColor : undefined, 
         data_url: undefined,
         data_headers: undefined,
@@ -4831,7 +4832,7 @@ c3_chart_internal_fn.convertDataToTargets = function (data, appendXs) {
         xs = $$.d3.keys(data[0]).filter($$.isX, $$),
         targets;
 
-    // save x for update data by load when custom x and vbi.x API
+    // save x for update data by load when custom x and c3.x API
     ids.forEach(function (id) {
         var xKey = $$.getXKey(id);
 
@@ -4892,7 +4893,9 @@ c3_chart_internal_fn.convertDataToTargets = function (data, appendXs) {
                 if (isUndefined(d[id]) || $$.data.xs[id].length <= i) {
                     x = undefined;
                 }
-                return {x: x, value: value, id: convertedId};
+
+				var	waterfallData = config.data_waterfallData[index][x+1]; 	 				
+                return {x: x, value: value, id: convertedId, waterfallMeta:waterfallData};
             }).filter(function (v) { return isDefined(v.x); })
         };
     });
@@ -5034,7 +5037,7 @@ c3_chart_internal_fn.cloneTarget = function (target) {
         id : target.id,
         id_org : target.id_org,
         values : target.values.map(function (d) {
-            return {x: d.x, value: d.value, id: d.id};
+            return {x: d.x, value: d.value, id: d.id, waterfallMeta:d.waterfallMeta};
         })
     };
 };
@@ -5085,7 +5088,7 @@ c3_chart_internal_fn.mapToIds = function (targets) {
 };
 c3_chart_internal_fn.mapToTargetIds = function (ids) {
     var $$ = this;
-     if($$.config.data_waterfall) {
+     if($$.config.data_waterfall) { 
   		ids = $$.config.data_columns.map(function(d) { return d[0] });
   		ids.shift();
   		return ids;
@@ -5307,11 +5310,13 @@ c3_chart_internal_fn.convertValuesToStep = function (values) {
     converted[0] = {
         x: converted[0].x - 1,
         value: converted[0].value,
+		waterfallMeta:converted[0].waterfallMeta,
         id: converted[0].id
     };
     converted[values.length + 1] = {
         x: converted[values.length].x + 1,
         value: converted[values.length].value,
+		waterfallMeta:converted[values.length].waterfallMeta,
         id: converted[values.length].id
     };
 
@@ -6952,7 +6957,7 @@ c3_chart_internal_fn.toggleShape = function (that, d, i) {
         shape.classed(CLASS.SELECTED, !isSelected);
         toggle(!isSelected, shape, d, i);
     }
-}; 
+};
 
 c3_chart_internal_fn.initWaterfallLine = function () {
 	var $$ = this;
@@ -6982,7 +6987,8 @@ c3_chart_internal_fn.updateWaterfallLine = function (durationForExit) {
 		barData = $$.barData.bind($$),
 		classWaterfallLine = $$.classWaterfallLine.bind($$),
 		initialOpacity = $$.initialOpacity.bind($$), 
-		color;
+		color;  
+		
 		if($$.config.data_waterfallLineColor) {
 			color = $$.config.data_waterfallLineColor;
 		} else {
@@ -7100,7 +7106,7 @@ c3_chart_internal_fn.generateDrawBar = function (barIndices, isSub) {
                 'L' + points[3][indexX] + ',' + points[3][indexY] + ' ' +
                 'z';
 
-		if($$.config.data_waterfall) {
+		if($$.config.data_waterfall) { 
 			var coords = path.split(" ");
 			coords.shift();
 			coords.pop();
@@ -8108,8 +8114,8 @@ c3_chart_internal_fn.getYForText = function (points, d, textElement) {
 
   			if(yPos > points[0][1]) {
   				yPos = points[0][1];
-  			}
-  	} 
+        }
+    }
     return yPos;
 };
 
@@ -8518,4 +8524,4 @@ c3_chart_internal_fn.redrawForZoom = function () {
 
 return c3$1;
 
-}))); 
+})));
