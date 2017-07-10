@@ -920,9 +920,9 @@ function generateWaterfallData(config) {
 			resultSum += column[j];
 			}else{
 				if(column[j]==='#'){
-					column[j] = interSum;
+					column[j] = column[j-1];
 				} else if(column[j]==='$'){
-					column[j] = resultSum;
+					column[j] = column[j-1];
 				}
 			}
 		}
