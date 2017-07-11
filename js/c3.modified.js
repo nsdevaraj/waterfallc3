@@ -8276,13 +8276,13 @@ c3_chart_internal_fn.getTooltipContent = function (d, defaultTitleFormat, defaul
             if (d[i].name === null) { continue; }
             name = sanitise(nameFormat(d[i].name, d[i].ratio, d[i].id, d[i].index));
             bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
-			//tooltip for waterfall
-			if(d[i].waterfallMeta && !isNaN(d[i].waterfallMeta)){
+
+			if($$.config.data_waterfall && d[i].waterfallMeta && !isNaN(d[i].waterfallMeta)){
 				value = d[i].waterfallMeta;
 			}
             text += "<tr class='" + $$.CLASS.tooltipName + "-" + $$.getTargetSelectorSuffix(d[i].id) + "'>";
             text += "<td class='name'><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
-            text += "<td class='value'>" +  value + "</td>";
+            text += "<td class='value'>" + value + "</td>";
             text += "</tr>";
         }
     }
