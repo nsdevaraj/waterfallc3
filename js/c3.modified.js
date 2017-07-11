@@ -6629,11 +6629,11 @@ c3_chart_internal_fn.updateLegend = function (targetIds, options, transitions) {
         .style("pointer-events", "none")
         .attr('x', $$.isLegendRight || $$.isLegendInset ? xForLegendText : -200)
         .attr('y', $$.isLegendRight || $$.isLegendInset ? -200 : yForLegendText);
-    l.append('rect')
+  /*l.append('rect')
         .attr("class", CLASS.legendItemEvent)
         .style('fill-opacity', 0)
         .attr('x', $$.isLegendRight || $$.isLegendInset ? xForLegendRect : -200)
-        .attr('y', $$.isLegendRight || $$.isLegendInset ? -200 : yForLegendRect);
+        .attr('y', $$.isLegendRight || $$.isLegendInset ? -200 : yForLegendRect); */
     l.append('line')
         .attr('class', CLASS.legendItemTile)
         .style('stroke', $$.color)
