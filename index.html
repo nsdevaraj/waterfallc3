@@ -9,19 +9,20 @@
     <script src="js/c3.modified.js"></script>
     <script>
       var chart = c3.generate({
-        data: {
+        data: {x: 'x',
           columns: [
-            ['data1', 1030, 1200, 1100,'#', 1400, 1150, 820, -1600, '$']
-            ,['data2', 2030, 2200, 2100,'#',   2400, 2150, 810, 2600, '$']
+		   ['x', 'Fund 2015', 'Stock A', 'Stock B', 'Stock C', 'Stock D', 'Stock E','Fund 2016'],
+            ['Value', 1100, 50, -250, -250, -25, 50, '$']
+            ,['Proceeds', 250, 0, 275, 250, 0, 0, '$']
           ], 
         groups: [
-            ['data1', 'data2']
+            ['Proceeds','Value']
         ],
           waterfall: true,
           waterfallLineColor: "#d3d3d3", 
           types : {
-            data1: "bar"
-			,data2: "bar"
+            Value: "bar"
+			,Proceeds: "bar"
           },
           onclick: function (d, element) { console.log("onclick", d, element); },
           onmouseover: function (d) { console.log("onmouseover", d); },
