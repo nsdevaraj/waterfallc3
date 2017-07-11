@@ -4893,8 +4893,10 @@ c3_chart_internal_fn.convertDataToTargets = function (data, appendXs) {
                 if (isUndefined(d[id]) || $$.data.xs[id].length <= i) {
                     x = undefined;
                 }
-
-				var	waterfallData = config.data_waterfallData[index][x+1]; 	 				
+				var	waterfallData = null
+				if(config.data_waterfallData){
+					waterfallData = config.data_waterfallData[index][x+1]; 	 
+				}				
                 return {x: x, value: value, id: convertedId, waterfallMeta:waterfallData};
             }).filter(function (v) { return isDefined(v.x); })
         };
