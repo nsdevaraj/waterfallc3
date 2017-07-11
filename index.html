@@ -9,47 +9,55 @@
     <script src="js/c3.modified.js"></script>
     <script>
       var chart = c3.generate({
-        data: {x: 'x',
-          columns: [
-            ['Value', 1100, 50, -250,'#', -250, -25, 50, '$'],
-			['Proceeds', 250, 0, -225,'#', 250, 0, 0, '$'],
-		   ['x', 'Fund 2015', 'Stock A', 'Stock B', 'Fund Mid 2015','Stock C', 'Stock D', 'Stock E','Fund 2016'] 
-          ], 
-        groups: [
-            ['Value','Proceeds']
-        ],
-          waterfall: true,
-          waterfallLineColor: "#d3d3d3", 
-          types : {
-            Value: "bar"
-			 ,Proceeds: "bar"
-          },
-        labels: true,
-		/*color: function (color, d) {
-            if (d.value < 0) {
-                return '#ff0000';
-            } else if (d.value > 0 ) {
-                return '#00ff00';
-            }  
-            
-            return '#0000ff';
-        },*/ 
-          onclick: function (d, element) { console.log("onclick", d, element); },
-          onmouseover: function (d) { console.log("onmouseover", d); },
-          onmouseout: function (d) { console.log("onmouseout", d); }
-        },
-        axis: {
-		  //rotated: true,
-          x: {
-            type: 'categorized'
-          } 
-        },
-        bar: {
-          width: {
-            ratio: 0.5
-          },
-        } 
-      }); 
+		  data: {
+			x: 'x',
+			columns: [
+			  ['Value', 1100, 50, -250, '#', -250, -25, 50, '$'],
+			  ['Proceeds', 250, 0, -225, '#', 250, 0, 0, '$'],
+			  ['x', 'Fund 2015', 'Stock A', 'Stock B', 'Fund Mid 2015', 'Stock C', 'Stock D', 'Stock E', 'Fund 2016']
+			],
+			groups: [
+			  ['Value', 'Proceeds']
+			],
+			waterfall: true,
+			waterfallLineColor: "#d3d3d3",
+			types: {
+			  Value: "bar",
+			  Proceeds: "bar"
+			},
+			labels: true,
+			/*color: function (color, d) {
+					if (d.value < 0) {
+						return '#ff0000';
+					} else if (d.value > 0 ) {
+						return '#00ff00';
+					}  
+					
+					return '#0000ff';
+				},*/
+			onclick: function(d, element) {
+			  console.log("onclick", d, element);
+			},
+			onmouseover: function(d) {
+			  console.log("onmouseover", d);
+			},
+			onmouseout: function(d) {
+			  console.log("onmouseout", d);
+			}
+		  },
+		  axis: {
+		    //rotated: true,
+			x: {
+			  type: 'categorized'
+			}
+		  },
+		  bar: {
+			width: {
+			  ratio: 0.5
+			}
+		  }
+		});
+
     </script>
   </body>
 </html>
