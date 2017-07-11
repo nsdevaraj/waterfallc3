@@ -15,7 +15,7 @@
   user-select: none;
   color: #D7D5D7;
 }
-
+ 
 .c3-legend-item-tile,
 .c3-xgrid-focus,
 .c3-ygrid,
@@ -67,7 +67,8 @@
 
 /*-- Text on Chart --*/
 
-.c3-text {
+.c3-text { 
+  fill:#000000 !important;  
 }
 
 .c3-text.c3-empty {

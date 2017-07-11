@@ -24,6 +24,16 @@
             Value: "bar"
 			 ,Proceeds: "bar"
           },
+        labels: true,
+		/*color: function (color, d) {
+            if (d.value < 0) {
+                return '#ff0000';
+            } else if (d.value > 0 ) {
+                return '#00ff00';
+            }  
+            
+            return '#0000ff';
+        },*/ 
           onclick: function (d, element) { console.log("onclick", d, element); },
           onmouseover: function (d) { console.log("onmouseover", d); },
           onmouseout: function (d) { console.log("onmouseout", d); }
@@ -37,7 +47,7 @@
           width: {
             ratio: 0.5
           },
-        }
+        } 
       });
     </script>
   </body>
