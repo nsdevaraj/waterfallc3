@@ -3,7 +3,7 @@
     <link href="css/c3.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="chart"></div> 
+    <div id="chart" style="height:100%"></div> 
 
     <script src="js/d3.v3.min.js" charset="utf-8"></script>
     <script src="js/c3.modified.js"></script>
@@ -12,7 +12,7 @@
         data: {x: 'x',
           columns: [
             ['Value', 1100, 50, -250,'#', -250, -25, 50, '$'],
-			['Proceeds', 250, 0, 275,'#', 250, 0, 0, '$'],
+			['Proceeds', 250, 0, -275,'#', 250, 0, 0, '$'],
 		   ['x', 'Fund 2015', 'Stock A', 'Stock B', 'Fund Mid 2015','Stock C', 'Stock D', 'Stock E','Fund 2016'] 
           ], 
         groups: [
