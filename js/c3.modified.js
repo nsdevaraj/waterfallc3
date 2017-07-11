@@ -7107,21 +7107,25 @@ c3_chart_internal_fn.generateDrawBar = function (barIndices, isSub) {
                 'z';
 
 		if($$.config.data_waterfall) { 
+			var barpath = path;
 			var coords = path.split(" ");
 			coords.shift();
 			coords.pop();
 			for(var j = 0; j < coords.length ; j++) {
 				coords[j] = coords[j].split(",");
-			}; 
-			//|| isNaN(d.waterfallMeta[i])
-			if(i > 0) {
+			};   
+			if(i >0) {
 				if($$.config.axis_rotated) {
 					path = "M "+holdCoords.data[1][0].replace("L","")+","+coords[0][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+holdCoords.data[2][0]+","+coords[3][1]+" z";
 				} else {
 					path = "M "+coords[0][0]+","+holdCoords.data[1][1]+" "+coords[1][0]+","+coords[1][1]+" "+coords[2][0]+","+coords[2][1]+" "+coords[3][0]+","+holdCoords.data[2][1]+" z";
 				}
+			} 
+			// totals and sub totals
+			if(isNaN(d.waterfallMeta) && i!=0) {
+				path = barpath;
 			}
-			holdCoords = {index: i, data: coords};
+			holdCoords = {index: i, data: coords}; 
 		}
         return path;
     };
