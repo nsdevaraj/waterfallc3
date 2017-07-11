@@ -7146,7 +7146,7 @@ c3_chart_internal_fn.generateDrawWaterfallLine = function (barIndices, isSub) {
 
             var path = 'M ' + points[0][indexX] + ',' + points[2][indexY] + ' ';
 
-            if($$.config.data_waterfall && holdCoords.length > 0 ) {
+            if($$.config.data_waterfall && i > 0 ) {
                 if($$.config.axis_rotated) {
                     path = 'M ' + holdCoords[1][indexX] + ',' + holdCoords[1][indexY] + ' ' +
                         'L ' + holdCoords[1][indexX] + ',' + points[1][indexY];
