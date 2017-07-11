@@ -916,9 +916,7 @@ function generateWaterfallData(config) {
 			if(!isNaN(column[j]) && !isNaN(column[j-1])){
 				column[j] = column[j - 1] + column[j];  
 			}else{
-				if(column[j]==='#'){
-					column[j] = column[j-1];
-				} else if(column[j]==='$'){
+				if(column[j]==='#' || column[j]==='$'){
 					column[j] = column[j-1]; 
 				}
 			}
@@ -4498,7 +4496,7 @@ c3_chart_internal_fn.getDefaultConfig = function () {
         data_onselected: function () {},
         data_onunselected: function () {},
     		data_waterfall: false, 
-			data_waterfallData: undefined, 
+			  data_waterfallData: undefined, 
     		data_waterfallLineColor : undefined, 
         data_url: undefined,
         data_headers: undefined,
