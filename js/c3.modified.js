@@ -8020,10 +8020,13 @@ c3_chart_internal_fn.updateText = function (durationForExit) {
         .style("fill", function (d) { return $$.color(d); })
         .style("fill-opacity", 0);
     $$.mainText
-        .text(function (d, i, j) { var value= d.value; 
+        .text(function (d, i, j) { 
+			var value= d.value; 
 			if($$.config.data_waterfall && d.waterfallMeta && !isNaN(d.waterfallMeta)){
 				value = d.waterfallMeta;
-			} return $$.dataLabelFormat(d.id)(value, d.id, i, j); });
+			} 
+			return $$.dataLabelFormat(d.id)(value, d.id, i, j); 
+		});
     $$.mainText.exit()
         .transition().duration(durationForExit)
         .style('fill-opacity', 0)
