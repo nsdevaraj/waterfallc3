@@ -997,6 +997,7 @@ c3_chart_internal_fn.initParams = function () {
 
     $$.color = $$.generateColor();
     $$.levelColor = $$.generateLevelColor();
+	$$.getColor = $$.getColor(); 
 
     $$.dataTimeFormat = config.data_xLocaltime ? d3.time.format : d3.time.format.utc;
     $$.axisTimeFormat = config.axis_x_localtime ? d3.time.format : d3.time.format.utc;
@@ -4498,6 +4499,8 @@ c3_chart_internal_fn.getDefaultConfig = function () {
     		data_waterfall: false, 
 			  data_waterfallData: undefined, 
     		data_waterfallLineColor : undefined, 
+    		data_waterfallPositiveColor : undefined, 
+    		data_waterfallNegativeColor : undefined, 
         data_url: undefined,
         data_headers: undefined,
         data_json: undefined,
@@ -5737,6 +5740,25 @@ c3_chart_internal_fn.dragend = function () {
     $$.main.selectAll('.' + CLASS.shape)
         .classed(CLASS.INCLUDED, false);
     $$.dragging = false;
+};
+
+c3_chart_internal_fn.getColor = function () {
+	var $$ = this;
+	return function (d) {
+		var color = $$.color(d.id); 
+		if($$.config.data_waterfall && $$.config.data_waterfallPositiveColor && $$.config.data_waterfallNegativeColor) { 
+			if(!isNaN(d.waterfallMeta) && d.index!=0){
+				if(d.waterfallMeta>0){
+					color = $$.config.data_waterfallPositiveColor;
+				} else{
+					color = $$.config.data_waterfallNegativeColor;
+				}
+			}
+			return color;
+		} else {
+			return $$.color(d.id); 
+		}
+	}
 };
 
 c3_chart_internal_fn.getYFormat = function (forArc) {
@@ -7049,10 +7071,12 @@ c3_chart_internal_fn.updateBar = function (durationForExit) {
         .remove();
 };
 c3_chart_internal_fn.redrawBar = function (drawBar, withTransition) {
+	var $$ = this,
+	color = $$.getColor;
     return [
         (withTransition ? this.mainBar.transition(Math.random().toString()) : this.mainBar)
             .attr('d', drawBar)
-            .style("fill", this.color)
+            .style("fill", color)
             .style("opacity", 1)
     ];
 };
