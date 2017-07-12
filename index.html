@@ -27,16 +27,10 @@
 			  Value: "bar",
 			  Proceeds: "bar"
 			},
-			labels: true,
-			/*color: function (color, d) {
-					if (d.value < 0) {
-						return '#ff0000';
-					} else if (d.value > 0 ) {
-						return '#00ff00';
-					}  
-					
-					return '#0000ff';
-				},*/
+			selection: {
+				enabled: true
+			},
+			labels: true, 
 			onclick: function(d, element) {
 			  console.log("onclick", d, element);
 			},
